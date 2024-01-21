@@ -12,3 +12,4 @@ requests==2.31.0
 sgmllib3k==1.0.0
 urllib3==2.1.0
 Werkzeug==3.0.1
+gunicorn
