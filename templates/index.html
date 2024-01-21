@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsScope</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+</head>
+<body>
+    <h1>NewsScope</h1>
+    
+    <form method="post" action="/">
+        <!-- <label for="query">Lookup:</label> -->
+        <input type="text" id="query" name="query" placeholder="Explore News"required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <h3>Search Results for: {{ query }}</h3>
+        <p>Total Hits: {{ news_data|length }}</p>
+        <ul>
+            {% for news_item in news_data %}
+                <li>
+                    <strong>{{ news_item.title }}</strong>
+                    <hr>
+                    <a href="{{ news_item.link }}" target="_blank">LINK</a>
+                    <br>
+                    <p>Published: {{ news_item.published }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
