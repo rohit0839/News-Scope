@@ -3,36 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NewsScope</title>
-
+    <title>NewsScope — Real-time News Aggregator</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
-    <h1>NewsScope</h1>
-    
-    <form method="post" action="/">
-        <!-- <label for="query">Lookup:</label> -->
-        <input type="text" id="query" name="query" placeholder="Explore News"required>
-        <button type="submit">Search</button>
-    </form>
 
-    {% if query %}
-        <h3>Search Results for: {{ query }}</h3>
-        <p>Total Hits: {{ news_data|length }}</p>
-        <ul>
-            {% for news_item in news_data %}
-                <li>
-                    <strong>{{ news_item.title }}</strong>
-                    <hr>
-                    <a href="{{ news_item.link }}" target="_blank">LINK</a>
-                    <br>
-                    <p>Published: {{ news_item.published }}</p>
-                </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-dot"></span>
+                <span>NewsScope</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-wrapper">
+        <!-- Search Section -->
+        <section class="hero-search">
+            <h1>Discover stories that matter</h1>
+            <p class="subtitle">Search live coverage and headlines from Google News</p>
+            
+            <form method="post" action="/" class="search-box">
+                <div class="input-container">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input 
+                        type="text" 
+                        id="query" 
+                        name="query" 
+                        value="{{ query if query else '' }}" 
+                        placeholder="Search topics, companies, or keywords..." 
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        {% if query %}
+            <section class="results-container">
+                <div class="results-meta">
+                    <h2>Results for <span>“{{ query }}”</span></h2>
+                    <span class="badge">{{ news_data|length }} Articles found</span>
+                </div>
+
+                {% if news_data %}
+                    <div class="grid-layout">
+                        {% for item in news_data %}
+                            <article class="news-card">
+                                <div class="card-body">
+                                    {% if item.source %}
+                                        <span class="source-tag">{{ item.source }}</span>
+                                    {% endif %}
+                                    <h3 class="card-title">
+                                        <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">
+                                            {{ item.clean_title }}
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="card-footer">
+                                    <span class="date">{{ item.published }}</span>
+                                    <a href="{{ item.link }}" target="_blank" rel="noopener noreferrer" class="read-link">
+                                        Read Article
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <p>No stories found matching your query. Try a broader search term.</p>
+                    </div>
+                {% endif %}
+            </section>
+        {% endif %}
+    </main>
+
 </body>
 </html>
