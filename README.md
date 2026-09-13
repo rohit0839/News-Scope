@@ -2,7 +2,7 @@
 
 NewsScope is a dynamic Python Flask project designed to revolutionize your news exploration experience. With a user-friendly interface, the application invites users to input their search queries, unleashing the power of Google RSS search URLs to curate and present news articles specifically related to the entered string. The project seamlessly fetches and filters news from a diverse range of reputable sources, offering a comprehensive view of the latest updates aligned with the user's interests. Hosted for accessibility, NewsScope promises an intuitive and personalized news discovery platform, redefining the way users stay informed in real-time.
 
-[mirror site1](https://news-scope-search.vercel.app/) &emsp;
+[mirror site1](https://rohit1729.pythonanywhere.com/) &emsp;
 [mirror site2](https://news-scope.onrender.com/)
 <hr>
 
